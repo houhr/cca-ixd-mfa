@@ -679,17 +679,17 @@
         .append('p')
         .text(function(d) { return (year - d.birthYear); });
 
-      // Draw name list
-      d3.select('#age .inner-wrapper')
-        .append('ul')
-        .attr('class', 'name-list')
-        .selectAll('li')
-        .data(data)
-        .enter()
-        .append('li')
-        .text(function(d) {
-          return d.name;
-        });
+      // // Draw name list
+      // d3.select('#age .inner-wrapper')
+      //   .append('ul')
+      //   .attr('class', 'name-list')
+      //   .selectAll('li')
+      //   .data(data)
+      //   .enter()
+      //   .append('li')
+      //   .text(function(d) {
+      //     return d.name;
+      //   });
     }
 
     function drawBackground(data) {

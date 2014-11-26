@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CCA IxD MFA — class of 2017</title>
+  <script src="d3.min.js" charset="utf-8"></script>
+  <script src="topojson.v1.min.js" charset="utf-8"></script>
+  <link href="http://fonts.googleapis.com/css?family=Lobster|Merriweather:400|Homemade+Apple" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="normalize.css" media="screen" title="no title" charset="utf-8">
+  <style media="screen">
+
+    html {
+      box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+
+    .cf:before,
+    .cf:after {
+      content: " "; /* 1 */
+      display: table; /* 2 */
+    }
+
+    .cf:after {
+      clear: both;
+    }
+
+    .cf {
+      *zoom: 1;
+    }
+
+    svg {
+      display: block;
+    }
+
+    h1, h2, header p {
+      font-family: 'Lobster', cursive;
+      font-weight: normal;
+      font-size: 42px;
+    }
+
+    strong {
+      font-size: 80px;
+      color: #EB423E;
+    }
+
+    body {
+      width: 100%;
+      font-family: 'Merriweather', serif;
+      color: #333;
+    }
+
+    #wrapper {
+      overflow: hidden;
+    }
+
+    header {
+      width: 100%;
+      height: 900px;
+      background-color: #EB423E;
+      padding-top: 120px;
+      -webkit-box-shadow: 0px 2px 5px 0px rgba(171,46,44,0.8);
+      -moz-box-shadow: 0px 2px 5px 0px rgba(171,46,44,0.8);
+      box-shadow: 0px 2px 5px 0px rgba(171,46,44,0.8);
+    }
+
+    header h1 {
+      font-size: 80px;
+      color: #fff;
+      margin: 0;
+      text-align: center;
+    }
+
+    header p {
+      display: inline-block;
+      margin: 10px 0;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      position: relative;
+    }
+
+    header p:first-child::before, header p:first-child::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 200px;
+      border-top: 2px solid #fff;
+      top: 25px;
+    }
+
+    header p:first-child::before {
+      right: 50%;
+      margin-right: 85px;
+    }
+
+    header p:first-child::after {
+      left: 50%;
+      margin-left: 85px;
+    }
+
+    header h1+p::before, header h1+p::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 160px;
+      border-top: 2px solid #fff;
+      top: 25px;
+    }
+
+    header h1+p::before {
+      right: 50%;
+      margin-right: 125px;
+    }
+
+    header h1+p::after {
+      left: 50%;
+      margin-left: 125px;
+    }
+
+    header .students {
+      position: relative;
+      width: 900px;
+      margin: 0 auto;
+    }
+
+    header .name-list {
+      list-style: none;
+      font-family: 'Homemade Apple', cursive;
+      padding: 0;
+      overflow: auto;
+      zoom: 1;
+      margin-top: 190px;
+    }
+
+    header .name-list li {
+      float: left;
+      margin: 0 15px;
+      margin-bottom: 120px;
+    }
+
+    header .name-list li:first-child {
+      margin-left: 40px;
+    }
+
+    header .name-list li:nth-child(6) {
+      margin-left: 40px;
+    }
+
+    header .photos {
+      width: 900px;
+      margin: 0 auto;
+      position: absolute;
+      top: -100px;
+    }
+
+    header .photos img {
+      width: 100px;
+      height: 100px;
+      -webkit-border-radius: 50px;
+      -moz-border-radius: 50px;
+      border-radius: 50px;
+      display: block;
+      margin: 0 25px 50px 25px;
+      float: left;
+      -webkit-filter: grayscale(1);
+      filter: grayscale(1);
+      -webkit-box-shadow: inset 0px 2px 5px 0px rgba(171,46,44,0.8);
+      -moz-box-shadow: inset 0px 2px 5px 0px rgba(171,46,44,0.8);
+      box-shadow: inset 0px 2px 5px 0px rgba(171,46,44,0.8);
+    }
+
+    header img:nth-child(6) {
+      clear: left;
+    }
+
+    header img:first-child {
+      margin-left: 100px;
+    }
+
+    #column {
+      width: 100%;
+      height: 800px;
+      background-color: transparent;
+      opacity: 0;
+    }
+
+    .land {
+      fill: #ccc;
+    }
+
+    .boundary {
+      fill: none;
+      stroke: #fff;
+      stroke-width: .5px;
+    }
+
+    #country {
+      position: fixed;
+      display: block;
+      width: 900px;
+      margin: 0 auto;
+      top: -80px;
+      left: 50%;
+      margin-left: -450px;
+      z-index: -1;
+    }
+
+    #country h2 {
+      position: absolute;
+      left: 42%;
+      bottom: 220px;
+    }
+
+    #country .bubble {
+      fill: #EB423E;
+      fill-opacity: .5;
+      stroke: #fff;
+      stroke-width: .5px;
+    }
+
+    #gendar {
+      background-color: #ccc;
+      margin-bottom: 50px;
+    }
+
+    #gendar .inner-wrapper {
+      width: 900px;
+      height: 607px;
+      margin: 0 auto;
+      padding: 100px 0;
+      position: relative;
+      background: url(girls.png) right bottom;
+      background-size: 480px 607px;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    #gendar .inner-wrapper::after {
+      content: '';
+      display: block;
+      background-color: #fff;
+      height: 607px;
+      width: 9999px;
+      position: absolute;
+      top: 0;
+      left: 900px;
+    }
+
+    #gendar h2 {
+      position: absolute;
+      top: 52%;
+      text-align: right;
+    }
+
+    #gendar svg {
+      margin-left: 200px;
+    }
+
+    #gendar .pie path {
+      stroke: none;
+    }
+
+    #gendar .pie text {
+      fill: #333;
+    }
+
+    #age {
+      background-color: #EB423E;
+    }
+
+    #age .inner-wrapper {
+      width: 900px;
+      margin: 0 auto;
+      padding: 55px 0;
+      position: relative;
+    }
+
+    #age .inner-wrapper::before {
+      content: '';
+      display: block;
+      background-color: #fff;
+      height: 100%;
+      width: 9999px;
+      position: absolute;
+      top: 0;
+      right: 900px;
+    }
+
+    #age .name-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      width: 50%;
+      position: absolute;
+      top: 56px;
+    }
+
+    #age .name-list li {
+      line-height: 40px;
+      margin-bottom: 5px;
+    }
+
+    #age .virtualization {
+      width: 50%;
+    }
+
+    .age {
+      width: 120px;
+      height: 40px;
+      background-color: #fff;
+      margin-bottom: 5px;
+      -webkit-border-top-right-radius: 20px;
+      -webkit-border-bottom-right-radius: 20px;
+      -moz-border-radius-topright: 20px;
+      -moz-border-radius-bottomright: 20px;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+    .age p {
+      line-height: 40px;
+      margin: 0;
+      text-align: right;
+      padding-right: 10px;
+    }
+
+    #age h2 {
+      position: absolute;
+      left: 60%;
+      top: 21%;
+      color: #fff;
+    }
+
+    #age h2+p {
+      position: absolute;
+      left: 60%;
+      top: 60%;
+      font-family: 'Homemade Apple', cursive;
+    }
+
+    #background {
+      width: 900px;
+      margin: 0 auto;
+    }
+
+    #background .inner-wrapper {
+      position: relative;
+    }
+
+    #background h2 {
+      text-align: center;
+      width: 607px;
+      margin: 100px auto 0 auto;
+    }
+
+    #background svg text {
+      fill: #EB423E;
+    }
+
+    #background svg circle {
+      fill: #fff;
+      stroke: #EB423E;
+    }
+
+    #contact {
+      font-family:'Lobster', cursive;
+      font-size: 42px;
+      position: absolute;
+      bottom: 45px;
+      right: 70px;
+    }
+
+    #contact a {
+      color: #EB423E;
+    }
+
+    footer {
+      background-color: #EB423E;
+    }
+
+    footer .inner-wrapper {
+      width: 900px;
+      margin: 0 auto;
+      padding: 100px 0;
+    }
+
+    footer p {
+      margin-top: 0;
+      text-align: center;
+      font-family: 'Homemade Apple', cursive;
+    }
+
+    footer a {
+      color: #333;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+    #bg {
+      background-color: #fff;
+      -webkit-box-shadow: 0px -2px 5px 0px rgba(138,138,138,1);
+      -moz-box-shadow: 0px -2px 5px 0px rgba(138,138,138,1);
+      box-shadow: 0px -2px 5px 0px rgba(138,138,138,1);
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="wrapper">
+
+    <header>
+      <p>we are</p>
+      <h1>CCA IxD MFA</h1>
+      <p>class of 2017</p>
+
+      <div class="students">
+
+      </div>
+    </header>
+
+    <div id="column"></div>
+
+    <section id="country">
+      <h2>
+        We came from <strong>5</strong> countries.
+      </h2>
+    </section>
+
+    <div id="bg">
+
+      <section id="gendar">
+        <div class="inner-wrapper">
+          <h2><strong>72.7</strong>% of us are female,<br>male designers are scarce.</h2>
+        </div>
+      </section>
+
+      <section id="age">
+        <div class="inner-wrapper cf">
+          <h2>We are a group of young designers,<br>most of us in our 20s.</h2>
+          <p>I promise you &mdash; we are not naive! <br> And yes, that's an em dash.</p>
+        </div>
+      </section>
+
+      <section id="background">
+        <div class="inner-wrapper">
+          <h2>Curious about our backgrounds?<br>Here they are!</h2>
+          <p id="contact">Need some interns? <br>
+            <a href="mailto:hhou@cca.edu;szhu@cca.edu;dzambrano@cca.edu;xwang6@cca.edu;ksistla@cca.edu;hshao@cca.edu;vramachandran@cca.edu;kkeogh@cca.edu;jjaturuntawanichya@cca.edu;pfu@cca.edu;tfei@cca.edu">Let's talk!</a></p>
+          </div>
+        </section>
+
+        <footer>
+          <div class="inner-wrapper">
+            <p>This data visualization site was designed &amp; handmade by <a href="http://hongru.hou.io">Hongru Hou</a>.</p>
+            <p>Proudly powered by <a href="http://d3js.org/">D3.js</a> &amp; <a href="https://pages.github.com/">GitHub Pages</a></p>
+            <p>Download raw data <a href="data.json">here</a>.</p>
+          </div>
+        </footer>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    function draw(data) {
+      'use strict';
+
+      drawHeader(data);
+      drawCountry(data);
+      drawGendar(data);
+      drawAge(data);
+      drawBackground(data);
+
+    }
+
+
+    d3.json('data.json', draw);
+
+    function drawHeader(data) {
+      d3.select('header .students')
+      .append('ul')
+      .attr('class', 'name-list')
+      .selectAll('li')
+      .data(data)
+      .enter()
+      .append('li')
+      .text(function(d) {
+        return d.name;
+      });
+
+      d3.select('header .students')
+      .append('div')
+      .attr('class', 'photos')
+      .selectAll('img')
+      .data(data)
+      .enter()
+      .append('img')
+      .attr('src', function(d) { return d.photoURL; });
+    }
+
+    function drawCountry(data) {
+      var width = 900,
+      height = 900;
+
+      var projection = d3.geo.mercator()
+      .scale((width + 1) / 2 / Math.PI)
+      .translate([width / 2, height / 2])
+      .precision(.1);
+
+      var path = d3.geo.path()
+      .projection(projection);
+
+      var graticule = d3.geo.graticule();
+
+      var svg = d3.select("#country").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+      svg.append("path")
+      .datum(graticule)
+      .attr("class", "graticule")
+      .attr("d", path);
+
+      d3.json("world.json", function(error, world) {
+        svg.insert("path", ".graticule")
+        .datum(topojson.feature(world, world.objects.land))
+        .attr("class", "land")
+        .attr("d", path);
+
+        svg.insert("path", ".graticule")
+        .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+        .attr("class", "boundary")
+        .attr("d", path);
+
+        svg.append("g")
+        .attr("class", "bubble")
+        .append("circle")
+        .attr('cx', 720)
+        .attr('cy', 360)
+        .attr("r", 6*10);
+
+        svg.append("g")
+        .attr("class", "bubble")
+        .append("circle")
+        .attr('cx', 650)
+        .attr('cy', 390)
+        .attr("r", 2*10);
+
+        svg.append("g")
+        .attr("class", "bubble")
+        .append("circle")
+        .attr('cx', 705)
+        .attr('cy', 410)
+        .attr("r", 1*10);
+
+        svg.append("g")
+        .attr("class", "bubble")
+        .append("circle")
+        .attr('cx', 769)
+        .attr('cy', 351)
+        .attr("r", 1*10);
+
+        svg.append("g")
+        .attr("class", "bubble")
+        .append("circle")
+        .attr('cx', 285)
+        .attr('cy', 430)
+        .attr("r", 1*10);
+
+      });
+
+      d3.select(self.frameElement).style("height", height + "px");
+
+    }
+
+    function drawGendar(data) {
+
+      var width = 250,
+      height = 250,
+      gendarRadius = 125;
+
+      var gendar = [
+      {
+        'gendar': 'female',
+        'number': 0
+      },
+      {
+        'gendar': 'male',
+        'number': 0
+      }
+      ];
+
+      data.forEach(function(d) {
+        if (d.gendar == 'male') {
+          gendar[1].number++;
+        } else {
+          gendar[0].number++;
+        }
+      });
+
+      var totalNumber = 0;
+      for (var i in gendar) {
+        totalNumber += gendar[i].number;
+      }
+
+      var gendarColor = d3.scale
+      .ordinal()
+      .range(['#EB423E', '#fff']);
+
+      var arc = d3.svg
+      .arc()
+      .outerRadius(gendarRadius)
+      .innerRadius(0);
+
+      var pie = d3.layout
+      .pie()
+      .sort(null)
+      .value(function(d) { return d.number; });
+
+      var svg = d3.select('#gendar .inner-wrapper')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+      .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+
+      var g = svg.selectAll('g')
+      .data(pie(gendar))
+      .enter()
+      .append('g')
+      .attr('class', 'pie');
+
+      g.append('path')
+      .attr('d', arc)
+      .style('fill', function(d, i) { return gendarColor(i); });
+
+      g.append('text')
+      .attr('transform', function(d) { return 'translate(' + arc.centroid(d) + ')'; })
+      .attr('dy', '.35em')
+      .style('text-anchor', 'middle')
+      .text(function(d) { return d.data.gendar; });
+
+    }
+
+    function drawAge(data) {
+
+      var date = new Date();
+      var year = date.getFullYear();
+
+      var maxAge = d3.max(data, function(d) { return year - d.birthYear});
+
+      var ageScale = d3.scale
+                       .linear()
+                       .domain([0, maxAge])
+                       .rangeRound([0, 100]);
+
+      // Sort array by age
+      data.sort(function(a, b) {
+        return d3.descending( year - a.birthYear, year - b.birthYear);
+      })
+
+      // Draw bar chart
+      d3.select('#age .inner-wrapper')
+        .append('div')
+        .attr('class', 'virtualization')
+        .selectAll('div')
+        .data(data)
+        .enter()
+        .append('div')
+        .attr('class', 'age')
+        .style('width', function(d) { return ageScale(year - d.birthYear)  + '%'; })
+        .append('p')
+        .text(function(d) { return (year - d.birthYear); });
+
+      // Draw name list
+      d3.select('#age .inner-wrapper')
+        .append('ul')
+        .attr('class', 'name-list')
+        .selectAll('li')
+        .data(data)
+        .enter()
+        .append('li')
+        .text(function(d) {
+          return d.name;
+        });
+    }
+
+    function drawBackground(data) {
+      var backgrounds = [];
+
+      data.forEach(function(d) {
+
+        if (backgrounds.length == 0) {
+
+          var obj = {
+            'name': d.background,
+            'people': []
+          };
+
+          obj['people'].push(d.name);
+
+          backgrounds.push(obj);
+
+        } else {
+
+          var found = false;
+
+          for(var i = backgrounds.length - 1; i >= 0; i--) {
+
+            if(backgrounds[i].name == d.background) {
+              found = true;
+              backgrounds[i].people.push(d.name);
+              break;
+            }
+
+          }
+
+          if(!found) {
+
+            var obj = {
+              'name': d.background,
+              'people': []
+            };
+
+            obj['people'].push(d.name);
+
+            backgrounds.push(obj);
+
+          }
+
+        }
+
+      });
+
+      backgrounds.sort(function(a, b) {
+        if(a.people.length <= b.people.length) {
+          return 1;
+        } else {
+          return -1;
+        }
+      })
+
+      var diameter = 900;
+
+      var bubble = d3.layout.pack()
+      .sort(null)
+      .size([diameter, diameter])
+      .padding(2);
+
+      var svg = d3.select("#background .inner-wrapper").append("svg")
+      .attr("width", diameter)
+      .attr("height", diameter)
+      .attr("class", "bubble");
+
+      var node = svg.selectAll(".node")
+      .data(bubble.nodes(classes(backgrounds))
+      .filter(function(d) { return !d.children; }))
+      .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+      node.append("title")
+      .text(function(d) { return d.value + ' people: ' + d.people; });
+
+      node.append("circle")
+      .attr("r", function(d) { return d.r; });
+
+      node.append("text")
+      .attr("dy", ".3em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.className; });
+
+      // Returns a flattened hierarchy containing all leaf nodes under the root.
+      function classes(root) {
+        var classes = [];
+
+        for(var prop in root) {
+          classes.push({
+            packageName: root[prop].name,
+            className: root[prop].name,
+            value: root[prop].people.length,
+            people: root[prop].people
+          });
+        }
+
+        return {children: classes};
+      }
+
+      d3.select(self.frameElement).style("height", diameter + "px");
+
+    }
+  </script>
+
+</body>
+</html>

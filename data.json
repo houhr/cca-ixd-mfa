@@ -1,0 +1,101 @@
+[
+
+  {
+    "name": "Jitpanan Jaturuntawanichya",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2014/10/Jaturuntawanichya.jpg",
+    "country": "Thailand",
+    "birthYear": 1985,
+    "gendar": "female",
+    "background": "Industrial Design (BA)"
+  },
+
+  {
+    "name": "Peixin Fu",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2014/10/Peixin-Fu-300x300.jpg",
+    "country": "China",
+    "birthYear": 1990,
+    "gendar": "female",
+    "background": "Industrial Design (BA)"
+  },
+
+  {
+    "name": "Hongru Hou",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2014/10/Hou-Hongru.jpg",
+    "country": "China",
+    "birthYear": 1987,
+    "gendar": "male",
+    "background": "CS (MS)"
+  },
+
+  {
+    "name": "Veena Ramachandran",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2014/10/VeenaRamachandran.jpg",
+    "country": "India",
+    "birthYear": 1988,
+    "gendar": "female",
+    "background": "EE (BS)"
+  },
+
+  {
+    "name": "Tian Fei",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2014/10/Tian-Fei.jpg",
+    "country": "China",
+    "birthYear": 1987,
+    "gendar": "male",
+    "background": "Photography (BA)"
+  },
+
+  {
+    "name": "Krishna Sistla",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2014/10/KrishnaSistla.jpg",
+    "country": "India",
+    "birthYear": 1992,
+    "gendar": "male",
+    "background": "Architecture (BArch)"
+  },
+
+  {
+    "name": "Hanzi Shao",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2012/07/ccagray.jpg",
+    "country": "China",
+    "birthYear": 1988,
+    "gendar": "female",
+    "background": "New Media (BA)"
+  },
+
+  {
+    "name": "Xueting Wang",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2014/10/vivianwang.jpg",
+    "country": "China",
+    "birthYear": 1991,
+    "gendar": "female",
+    "background": "Industrial Design (BA)"
+  },
+
+  {
+    "name": "Dafnee Zambrano",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2014/10/dafneezambrano.jpg",
+    "country": "Venezuela",
+    "birthYear": 1991,
+    "gendar": "female",
+    "background": "Painting (BA)"
+  },
+
+  {
+    "name": "Kyu Hee Keogh",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2014/10/Kyu-Hee-Keogh.jpeg",
+    "country": "Korea",
+    "birthYear": 1983,
+    "gendar": "female",
+    "background": "Animation (BA)"
+  },
+
+  {
+    "name": "Siyao Zhu",
+    "photoURL": "http://design.cca.edu/wp-content/uploads/2014/10/Siyaozhu.jpg",
+    "country": "China",
+    "birthYear": 1991,
+    "gendar": "female",
+    "background": "Industrial Design (BA)"
+  }
+]
